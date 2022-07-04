@@ -1,4 +1,4 @@
-package com.doddabasappah;
+package com.javatechie;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,7 @@ public class DevopsIntegrationApplication {
 
 	@GetMapping
 	public String message(){
-		return "welcome to doddabasappah";
+		return "welcome to Devops world";
 	}
 
 	public static void main(String[] args) {
