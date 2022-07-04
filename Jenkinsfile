@@ -3,6 +3,9 @@ pipeline {
     tools {
        maven 'maven-3.5.0'
     }
+    environment {
+    DOCKER_CERT_PATH = credentials('id-for-a-docker-cred')
+  }
     stages{
         stage('Build Maven'){
             steps{
