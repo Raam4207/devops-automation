@@ -4,12 +4,16 @@ pipeline {
        maven 'maven-3.5.0'
     }
     stages{
-        stage('Build Maven'){
+        stage('Clone'){
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/doddabasappa94/devops-automation']]])
-                sh 'mvn clean install'
+                
             }
         }
+        stage('Build & Test'){
+            steps{
+                sh 'mvn clean install'
+            }
         stage('Build docker image'){
             steps{
                 script{
