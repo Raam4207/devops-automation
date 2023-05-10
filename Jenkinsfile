@@ -4,12 +4,12 @@ pipeline {
        maven 'mvn 3.9.1'
     }
     stages{
-        stage('Clone'){
-            steps{
-                git branch: 'main', url: 'git@github.com:Raam4207/devops-automation.git'
+//         stage('Clone'){
+//             steps{
+//                 git branch: 'main', url: 'git@github.com:Raam4207/devops-automation.git'
                 
-            }
-        }
+//             }
+//         }
         stage('Build & Test'){
             steps{
                 sh 'mvn clean install'
