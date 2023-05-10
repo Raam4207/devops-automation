@@ -12,7 +12,7 @@ pipeline {
 //         }
         stage('Build & Test'){
             steps{
-                cleanWs()
+//                 cleanWs()
                 sh 'mvn clean install'
             }
         }
