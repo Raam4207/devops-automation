@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools {
-       maven 'maven-3.5.0'
+       maven 'mvn 3.9.1'
     }
     stages{
         stage('Clone'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/doddabasappa94/devops-automation']]])
+                git branch: 'main', url: 'git@github.com:Raam4207/devops-automation.git'
                 
             }
         }
@@ -18,27 +18,26 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t doddabasappah/devops-integration .'
+                    sh 'docker build -t raam2023/devops-integration .'
                 }
             }
         }
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u doddabasappah -p ${dockerhubpwd}'
-
-}
-                   sh 'docker push doddabasappah/devops-integration'
+                   withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'DOCKER_PWD', usernameVariable: 'DOCKER_USER')]) {
+                       sh 'docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}'
+                       sh 'docker push ${DOCKER_USER}/devops-integration'
                 }
             }
         }
-        stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
-                }
-            }
         }
+//         stage('Deploy to k8s'){
+//             steps{
+//                 script{
+//                     kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+//                 }
+//             }
+//         }
     }
 }
