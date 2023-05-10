@@ -36,8 +36,7 @@ pipeline {
         stage('Deploy to k8s'){
             steps{
                 script{
-//                   withCredentials([string(credentialsId: 'kuberntes-jenkins-service-accoount-token', variable: 'jenkins-cred')]) 
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',enableConfigSubstitution: true)
+                         sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
