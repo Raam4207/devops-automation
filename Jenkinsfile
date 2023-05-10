@@ -3,6 +3,7 @@ pipeline {
     tools {
        maven 'mvn 3.9.1'
     }
+    cleanWs()
     stages{
 //         stage('Clone'){
 //             steps{
@@ -35,9 +36,8 @@ pipeline {
         stage('Deploy to k8s'){
             steps{
                 script{
-                  withCredentials([string(credentialsId: 'kuberntes-jenkins-service-accoount-token', variable: 'jenkins-cred')]) {
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: jenkins-cred )
-                }
+//                   withCredentials([string(credentialsId: 'kuberntes-jenkins-service-accoount-token', variable: 'jenkins-cred')]) 
+                    kubernetesDeploy (configs: 'deploymentservice.yaml',enableConfigSubstitution: true)
                 }
             }
         }
