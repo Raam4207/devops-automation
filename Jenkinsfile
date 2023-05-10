@@ -3,7 +3,6 @@ pipeline {
     tools {
        maven 'mvn 3.9.1'
     }
-    cleanWs()
     stages{
 //         stage('Clone'){
 //             steps{
@@ -13,6 +12,7 @@ pipeline {
 //         }
         stage('Build & Test'){
             steps{
+                cleanws()
                 sh 'mvn clean install'
             }
         }
