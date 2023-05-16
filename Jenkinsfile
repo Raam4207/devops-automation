@@ -1,19 +1,18 @@
 pipeline {
     agent any
     tools {
-       maven 'mvn 3.9.1'
+       maven 'maven'
     }
     stages{
-//         stage('Clone'){
-//             steps{
-//                 git branch: 'main', url: 'git@github.com:Raam4207/devops-automation.git'
-                
-//             }
-//         }
+         stage('Build maven'){
+           steps{
+                 checkout([$class: 'GitSCM',branches: [[name: '*/main']], extensions: [], userRemoteconfigs: [[url: 'https://github.com/Raam4207/devops-automation.git'
+                 sh 'mvn clean install'
+             }
+         }
         stage('Build & Test'){
             steps{
-//                 cleanWs()
-                sh 'mvn clean install'
+                 cleanWs()
             }
         }
         stage('Build docker image'){
