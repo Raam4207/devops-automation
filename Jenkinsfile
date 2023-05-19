@@ -7,7 +7,7 @@ pipeline {
          stage('Build maven'){
            steps{
                  checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GIT_PWD', url: 'https://github.com/Raam4207/devops-automation.git']])
-                 sh 'mvn clean install'
+		 sh 'mvn clean install'
              }
          }
         stage('Build & Test'){
@@ -25,9 +25,9 @@ pipeline {
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([usernameColonPassword(credentialsId: 'docker-cred', variable: 'docker_crede')]) {
-                   sh 'docker login -u ${docker-cred} -p ${docker_crede}'  
-                   sh 'docker push ${docker-cred}/devintegration'
+		   withCredentials([usernameColonPassword(credentialsId: 'Dockerhub_cred', variable: 'dockerhub_cred')]) {
+		   sh 'docker login -u ${dockerhub-cred} -p ${dockerhub_cred}'  
+                   sh 'docker push ${dockerhub_cred}/devintegration'
                    }                    
                 }
             }
