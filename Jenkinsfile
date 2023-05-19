@@ -6,7 +6,7 @@ pipeline {
     stages{
          stage('Build maven'){
            steps{
-                 checkout([$class: 'GitSCM',branches: [[name: '*/main']], extensions: [], userRemoteconfigs: [[url: 'https://github.com/Raam4207/devops-automation.git'
+                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GIT_PWD', url: 'https://github.com/Raam4207/devops-automation.git']])
                  sh 'mvn clean install'
              }
          }
@@ -18,19 +18,19 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t raam2023/devops-integrate .'
+                    sh 'docker build -t raam2023/devintegration .'
                 }
             }
         }
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'DOCKER_PWD', usernameVariable: 'DOCKER_USER')]) {
-                       sh 'docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}'
-                       sh 'docker push ${DOCKER_USER}/devops-integrate'
+                   withCredentials([usernameColonPassword(credentialsId: 'docker-cred', variable: 'docker_crede')]) {
+                   sh 'docker login -u ${docker-cred} -p ${docker_crede}'  
+                   sh 'docker push ${docker-cred}/devintegration'
+                   }                    
                 }
             }
-        }
         }
         stage('Deploy to k8s'){
             steps{
